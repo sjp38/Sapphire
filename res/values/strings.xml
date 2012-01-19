@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Split bill card</string>
+    <string name="event_detail_activity_label">Event detail</string>
+    <string name="event_edit_activity_label">Edit event</string>
+    <string name="payment_edit_activity_label">Edit payment</string>
+    <string name="member_edit_activity_label">Edit member</string>
+    <string name="settings_activity_label">Setting</string>
+    <string name="menu_action_add_title">Add</string>
+    <string name="menu_action_setting_title">Setting</string>
+    <string name="menu_action_edit_title">Edit</string>
+    <string name="payments_list">Payments</string>
+    <string name="members">Members</string>
+    <string name="name">Name</string>
+    <string name="state">State</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="allocation_ratio">Allocation ratio</string>
+    <string name="ratio">Ratio</string>
+    <string name="percent">percent</string>
+    <string name="reason">Reason</string>
+    <string name="exceptional_allocation_rules">Exceptional allocation rules</string>
+    <string name="cost">Cost</string>
+    <string name="paid_time">Paid time</string>
+    <string name="dialog_positive_button">Ok</string>
+    <string name="dialog_negative_button">Cancel</string>
+    <string name="date_format">"yyyy.MM.dd"</string>
+    <string name="time_format">hh:mm aa"</string>
+    <string name="warning_event_must_have_name">Event must have name.</string>
+    <string name="warning_to_time_must_earlier_than_from_time">To time must earlier than From time.</string>
+    <string name="warning_no_address">There is no address for notice on this contact.</string>
+    <string name="warning_member_should_exist">Member should be exist.</string>
+    <string name="calculate">Calculate</string>
+    <string name="setting_button_save">Save</string>
+    <string name="setting_button_discard">Discard</string>
+    <string name="setting_button_delete">Delete</string>
+    <string name="send_notice">Send notice message</string>
+    <string name="member_item_alloc_ratio">Ratio : <xliff:g id="alloc_percentage">%s</xliff:g>(<xliff:g id="alloc_reason">%s</xliff:g>)</string>
+    <string name="symbol_percent">        <![CDATA["% "]]>
+    </string>
+    <string name="send_notice_to">"Send notice to"</string>
+    <string name="dialog_select_address_to_send_notice_title">Select address to send notice for <xliff:g id="contact_name">%s</xliff:g></string>
+    <string name="dialog_select_exceptional_member">Select member to give exceptional rule.</string>
+    <string name="dialog_notice_to_title">Send notice message to </string>
+    <string name="cost_format"><xliff:g id="cost">%s</xliff:g><xliff:g id="currency_unit">%s</xliff:g></string>
+    <string name="confirmed_by_sms">Confirmed by SMS</string>
+    <string name="currency_unit_default">$</string>
+    <string name="default_bill_format">Detailed</string>
+    <string name="preference_summary_bank_account">Bank account to receive money.</string>
+    <string name="preference_title_bank_account">Bank account</string>
+    <string name="preference_summary_currency_unit">Unit of currency. (e.g. $) Should be same with unit on bank notice message if you are using SMS parsing service below.</string>
+    <string name="preference_title_currency_unit">Unit of currency</string>
+    <string name="preference_summary_bill_format">Format of charge notice message will use.</string>
+    <string name="preference_title_bill_format">Charge notice message format</string>
+    <string name="preference_summary_sms_parser_service_on">"If you are using bank's income\/outgo SMS notice service, read it and change payment state automatically."</string>
+    <string name="preference_title_sms_parser_service_on">SMS parsing service</string>
+    <string name="preference_summary_outgo_sms_phone_number">Incoming phone number of bank outgo notice message.</string>
+    <string name="preference_title_outgo_sms_phone_number">Outgo notice phone number</string>
+    <string name="preference_summary_income_sms_phone_number">Incoming phone number of bank income notice message.</string>
+    <string name="preference_title_income_sms_phone_number">Income notice phone number</string>
+    <string name="preference_summary_outgo_sms_keyword">Keyword that always bank outgo notice message contains.</string>
+    <string name="preference_title_outgo_sms_keyword">Keyworkd for outgo notice</string>
+    <string name="preference_summary_income_sms_keyword">Keyword that always bank income notice message contains.</string>
+    <string name="preference_title_income_sms_keyword">Keyword for income notice</string>
+
+    <string-array name="notice_to">
+        <item>members with email address</item>
+        <item>members with phone number</item>
+    </string-array>
+    <string-array name="payment_states">
+        <item>Allocation not noticed</item>
+        <item>Allocation noticed</item>
+        <item>Paid</item>
+    </string-array>
+    <string-array name="event_states">
+        <item>Allocation not noticed</item>
+        <item>Allocation noticed</item>
+        <item>Completed</item>
+    </string-array>
+    <string-array name="event_simple_states">
+        <item>Idle</item>
+        <item>Noticed</item>
+        <item>Complete</item>
+    </string-array>
+    <string-array name="preference_bill_format_entries">
+        <item>With all payments</item>
+        <item>Only total result</item>
+    </string-array>
+    <string-array name="preference_bill_format_entryValues">
+        <item>Detailed</item>
+        <item>Simple</item>
+    </string-array>
+
+</resources>

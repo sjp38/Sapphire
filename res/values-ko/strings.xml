@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">추렴새 카드</string>
+    <string name="event_detail_activity_label">모임 내용</string>
+    <string name="event_edit_activity_label">모임 수정</string>
+    <string name="payment_edit_activity_label">결재내역 수정</string>
+    <string name="member_edit_activity_label">멤버 수정</string>
+    <string name="settings_activity_label">설정</string>
+    <string name="menu_action_add_title">추가</string>
+    <string name="menu_action_setting_title">설정</string>
+    <string name="menu_action_edit_title">수정</string>
+    <string name="payments_list">결재 내역</string>
+    <string name="members">멤버</string>
+    <string name="name">이름</string>
+    <string name="state">상태</string>
+    <string name="from">시작 시각</string>
+    <string name="to">종료 시각</string>
+    <string name="allocation_ratio">할당율</string>
+    <string name="ratio">비율</string>
+    <string name="percent">퍼센트</string>
+    <string name="reason">사유</string>
+    <string name="exceptional_allocation_rules">예외 할당율</string>
+    <string name="cost">결재 금액</string>
+    <string name="paid_time">결재 시각</string>
+    <string name="dialog_positive_button">확인</string>
+    <string name="dialog_negative_button">취소</string>
+    <string name="date_format">"yyyy.MM.dd"</string>
+    <string name="time_format">hh:mm aa"</string>
+    <string name="warning_event_must_have_name">이름이 있어야 합니다.</string>
+    <string name="warning_to_time_must_earlier_than_from_time">시작 시각은 종료 시각보다 일러야 합니다.</string>
+    <string name="warning_no_address">해당 연락처엔 연락 가능한 주소가 없습니다.</string>
+    <string name="warning_member_should_exist">멤버가 하나 이상 존재해야 합니다..</string>
+    <string name="calculate">정산</string>
+    <string name="setting_button_save">저장</string>
+    <string name="setting_button_discard">취소</string>
+    <string name="setting_button_delete">삭제</string>
+    <string name="send_notice">정산 메세지 보내기</string>
+    <string name="member_item_alloc_ratio">할당율  : <xliff:g id="alloc_percentage">%s</xliff:g>(<xliff:g id="alloc_reason">%s</xliff:g>)</string>
+    <string name="symbol_percent">        <![CDATA["% "]]>
+    </string>
+    <string name="send_notice_to">"정산 메세지 보낼 주소"</string>
+    <string name="dialog_select_address_to_send_notice_title"><xliff:g id="contact_name">%s</xliff:g>에게 정산 메세지를 보낼 주소를 선택하세요.</string>
+    <string name="dialog_select_exceptional_member">예외 할당율을 적용할 멤버를 선택하세요.</string>
+    <string name="dialog_notice_to_title">다음 멤버에게 정산 메세지 전송</string>
+    <string name="cost_format"><xliff:g id="cost">%s</xliff:g><xliff:g id="currency_unit">%s</xliff:g></string>
+    <string name="confirmed_by_sms">Confirmed by SMS</string>
+    <string name="currency_unit_default">원</string>
+    <string name="default_bill_format">Detailed</string>
+    <string name="preference_summary_bank_account">입금 받을 계좌 주소</string>
+    <string name="preference_title_bank_account">계좌 주소</string>
+    <string name="preference_summary_currency_unit">화폐 단위. (예 : 원) 아래의 문자 분석 서비스를 이용하신다면 은행의 알림 문자에서 표시되는 화폐 단위와 동일해야 합니다.</string>
+    <string name="preference_title_currency_unit">화폐 단위</string>
+    <string name="preference_summary_bill_format">공지에 사용할 정산 메세지 포맷.</string>
+    <string name="preference_title_bill_format">정산 메세지 포맷</string>
+    <string name="preference_summary_sms_parser_service_on">은행으로부터 결재 / 입금 문자 알림 서비스를 사용 중이라면, 해당 문자를 읽고 분석해 자동으로 결재 내역, 입금 상태를 설정합니다.</string>
+    <string name="preference_title_sms_parser_service_on">문자 분석 서비스</string>
+    <string name="preference_summary_outgo_sms_phone_number">결재 내역 알림 문자의 전화 번호.</string>
+    <string name="preference_title_outgo_sms_phone_number">결재 내역 전화 번호</string>
+    <string name="preference_summary_income_sms_phone_number">입금 내역 알림 문자의 전화 번호.</string>
+    <string name="preference_title_income_sms_phone_number">입금 내역 전화 번호</string>
+    <string name="preference_summary_outgo_sms_keyword">결재 내역 알림 문자에 항상 포함되는 키워드(ex : 결재 승인).</string>
+    <string name="preference_title_outgo_sms_keyword">결재 알림 문자 키워드</string>
+    <string name="preference_summary_income_sms_keyword">입금 내역 알림 문자에 항상 포함되는 키워드(ex : 입금).</string>
+    <string name="preference_title_income_sms_keyword">입금 알림 문자 키워드</string>
+
+    <string-array name="notice_to">
+        <item>이메일 주소의 멤버들</item>
+        <item>전화 번호의 멤버들</item>
+    </string-array>
+    <string-array name="payment_states">
+        <item>정산 내역 미공지</item>
+        <item>정산 내역 공지됨</item>
+        <item>입금 완료</item>
+    </string-array>
+    <string-array name="event_states">
+        <item>정산 내역 미공지</item>
+        <item>정산 내역 공지됨</item>
+        <item>완료</item>
+    </string-array>
+    <string-array name="event_simple_states">
+        <item>미공지</item>
+        <item>공지됨</item>
+        <item>완료</item>
+    </string-array>
+    <string-array name="preference_bill_format_entries">
+        <item>모든 결재 내역 포함</item>
+        <item>합계만 포함</item>
+    </string-array>
+    <string-array name="preference_bill_format_entryValues">
+        <item>Detailed</item>
+        <item>Simple</item>
+    </string-array>
+
+</resources>

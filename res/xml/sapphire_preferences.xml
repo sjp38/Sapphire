@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="bank_account"
+        android:summary="@string/preference_summary_bank_account"        
+        android:title="@string/preference_title_bank_account" />
+    <EditTextPreference
+        android:key="currency_unit"
+        android:summary="@string/preference_summary_currency_unit"
+        android:title="@string/preference_title_currency_unit"
+        android:defaultValue="@string/currency_unit_default" />
+    <ListPreference
+        android:key="bill_format"
+        android:title="@string/preference_title_bill_format"
+        android:summary="@string/preference_summary_bill_format"
+        android:defaultValue="@string/default_bill_format"
+        android:entries="@array/preference_bill_format_entries"
+        android:entryValues="@array/preference_bill_format_entryValues" />
+
+    <PreferenceCategory android:title="SMS check setting" >
+        <CheckBoxPreference
+            android:key="sms_parser_service_on"
+            android:summary="@string/preference_summary_sms_parser_service_on"
+            android:title="@string/preference_title_sms_parser_service_on" />
+
+        <EditTextPreference
+            android:dependency="sms_parser_service_on"
+            android:inputType="phone"
+            android:key="outgo_sms_phone_number"
+            android:summary="@string/preference_summary_outgo_sms_phone_number"
+            android:title="@string/preference_title_outgo_sms_phone_number" />
+        <EditTextPreference
+            android:dependency="sms_parser_service_on"
+            android:inputType="phone"
+            android:key="income_sms_phone_number"
+            android:summary="@string/preference_summary_income_sms_phone_number"
+            android:title="@string/preference_title_income_sms_phone_number" />
+        <EditTextPreference
+            android:dependency="sms_parser_service_on"
+            android:key="outgo_sms_keyword"
+            android:summary="@string/preference_summary_outgo_sms_keyword"
+            android:title="@string/preference_title_outgo_sms_keyword" />
+        <EditTextPreference
+            android:dependency="sms_parser_service_on"
+            android:key="income_sms_keyword"
+            android:summary="@string/preference_summary_income_sms_keyword"
+            android:title="@string/preference_title_income_sms_keyword" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
