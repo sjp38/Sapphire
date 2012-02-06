@@ -63,9 +63,12 @@ public class DataManager {
     public void removeEvent(int position) {
         final Event event = mEventsManager.get(position);
         final ArrayList<Payment> payments = mPaymentsManager.get(event.mId);
-        for (Payment payment : payments) {
-            mMembersManager.remove(event.mId, payment.mId);
+        if (payments != null) {
+            for (Payment payment : payments) {
+                mMembersManager.remove(event.mId, payment.mId);
+            }
         }
+
         mMembersManager.remove(event.mId, -1);
         mPaymentsManager.remove(event.mId);
 
