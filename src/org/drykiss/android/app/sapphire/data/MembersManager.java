@@ -113,6 +113,9 @@ public class MembersManager implements DataManager.DataPracticeManager {
         }
         final Member oldMember = members.get(position);
         final ContentValues values = oldMember.getDiff(member);
+        if (values.size() <=0) {
+            return;
+        }
         final Uri uri = ContentUris.withAppendedId(
                 SapphireProvider.Member.CONTENT_URI, member.mId);
         mContext.getContentResolver().update(uri, values, null, null);
