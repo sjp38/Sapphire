@@ -63,6 +63,7 @@
     <string name="preference_title_outgo_sms_keyword">Keyworkd for outgo notice</string>
     <string name="preference_summary_income_sms_keyword">Keyword that always bank income notice message contains.</string>
     <string name="preference_title_income_sms_keyword">Keyword for income notice</string>
+    <string name="account">Account : <xliff:g id="account">%s</xliff:g></string>
 
     <string-array name="notice_to">
         <item>members with email address</item>

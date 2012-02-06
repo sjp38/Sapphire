@@ -121,9 +121,10 @@ public class EventDetailActivity extends ActionBarActivity {
         public void onClick(View v) {
             final SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(EventDetailActivity.this);
+            final String account = getString(R.string.account, prefs.getString(SettingsActivity.KEY_BANK_ACCOUNT, ""));
             final String billFormat = prefs.getString(SettingsActivity.KEY_BILL_FORMAT,
                     getString(R.string.default_bill_format));
-            final String message = formatChargeResult(!billFormat
+            final String message = account + "\n" + formatChargeResult(!billFormat
                     .equals(R.string.default_bill_format));
 
             final int membersCount = DataManager.INSTANCE.getMemberCount(mEvent.getmId(), -1);
