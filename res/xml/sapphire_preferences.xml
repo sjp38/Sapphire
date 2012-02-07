@@ -3,20 +3,28 @@
 
     <EditTextPreference
         android:key="bank_account"
-        android:summary="@string/preference_summary_bank_account"        
+        android:summary="@string/preference_summary_bank_account"
         android:title="@string/preference_title_bank_account" />
     <EditTextPreference
+        android:defaultValue="@string/currency_unit_default"
         android:key="currency_unit"
         android:summary="@string/preference_summary_currency_unit"
-        android:title="@string/preference_title_currency_unit"
-        android:defaultValue="@string/currency_unit_default" />
+        android:title="@string/preference_title_currency_unit" />
+
     <ListPreference
-        android:key="bill_format"
-        android:title="@string/preference_title_bill_format"
-        android:summary="@string/preference_summary_bill_format"
         android:defaultValue="@string/default_bill_format"
         android:entries="@array/preference_bill_format_entries"
-        android:entryValues="@array/preference_bill_format_entryValues" />
+        android:entryValues="@array/preference_bill_format_entryValues"
+        android:key="bill_format"
+        android:summary="@string/preference_summary_bill_format"
+        android:title="@string/preference_title_bill_format" />
+
+    <EditTextPreference
+        android:defaultValue="@string/default_decimal_spaces_for_money"
+        android:inputType="numberSigned"
+        android:key="decimal_spaces_for_money"
+        android:summary="@string/preference_summary_decimal_spaces_for_money"
+        android:title="@string/preference_title_decimal_spaces_for_money" />
 
     <PreferenceCategory android:title="SMS check setting" >
         <CheckBoxPreference

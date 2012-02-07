@@ -121,7 +121,8 @@ public class EventDetailActivity extends ActionBarActivity {
         public void onClick(View v) {
             final SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(EventDetailActivity.this);
-            final String account = getString(R.string.account, prefs.getString(SettingsActivity.KEY_BANK_ACCOUNT, ""));
+            final String account = getString(R.string.account,
+                    prefs.getString(SettingsActivity.KEY_BANK_ACCOUNT, ""));
             final String billFormat = prefs.getString(SettingsActivity.KEY_BILL_FORMAT,
                     getString(R.string.default_bill_format));
             final String message = account + "\n" + formatChargeResult(!billFormat
@@ -455,6 +456,9 @@ public class EventDetailActivity extends ActionBarActivity {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         final String currencyUnit = prefs.getString(SettingsActivity.KEY_CURRENCY_UNIT,
                 getString(R.string.currency_unit_default));
+        final int decimalSpaces = Integer.valueOf(prefs.getString(
+                SettingsActivity.KEY_DECIMAL_SPACES_FOR_MONEY,
+                getString(R.string.default_decimal_spaces_for_money)));
         String resultText = "";
         final int resultsCount = results.size();
         int position = onlyTotal ? resultsCount - 1 : 0;
@@ -463,16 +467,27 @@ public class EventDetailActivity extends ActionBarActivity {
             ArrayList<Bill> bills = result.getmBills();
             Collections.sort(bills);
             resultText += result.getmPaymentName() + " : "
-                    + Double.parseDouble(String.format("%.2f", result.getmPaymentCost()))
+                    + getDisplayableCost(result.getmPaymentCost(), decimalSpaces)
                     + currencyUnit + "\n";
             for (Bill bill : bills) {
                 resultText += bill.getmName() + " : "
-                        + Double.parseDouble(String.format("%.2f", bill.getmCharge()))
+                        + getDisplayableCost(bill.getmCharge(), decimalSpaces)
                         + currencyUnit + "\n";
             }
             resultText += "\n";
         }
         return resultText;
+    }
+
+    private String getDisplayableCost(double cost, int decimalSpaces) {
+        cost = cost * Math.pow(10, decimalSpaces);
+        cost = Math.ceil(cost);
+        cost = cost / Math.pow(10, decimalSpaces);
+        if (decimalSpaces < 0) {
+            decimalSpaces = 0;
+        }
+        final String moneyFormat = "%." + decimalSpaces + "f";
+        return String.format(moneyFormat, cost);
     }
 
     private void addPaymentViews() {
@@ -498,7 +513,11 @@ public class EventDetailActivity extends ActionBarActivity {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             final String currencyUnit = prefs.getString(SettingsActivity.KEY_CURRENCY_UNIT,
                     getString(R.string.currency_unit_default));
-            costTextView.setText(getString(R.string.cost_format, payment.getmCost(), currencyUnit));
+            final int decimalSpaces = Integer.valueOf(prefs.getString(
+                    SettingsActivity.KEY_DECIMAL_SPACES_FOR_MONEY,
+                    getString(R.string.default_decimal_spaces_for_money)));
+            costTextView.setText(getString(R.string.cost_format,
+                    getDisplayableCost(payment.getmCost(), decimalSpaces), currencyUnit));
 
             final TextView dateTextView = (TextView) paymentView
                     .findViewById(R.id.payment_item_dateTextView);

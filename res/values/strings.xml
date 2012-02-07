@@ -47,12 +47,15 @@
     <string name="confirmed_by_sms">Confirmed by SMS</string>
     <string name="currency_unit_default">$</string>
     <string name="default_bill_format">Detailed</string>
+    <string name="default_decimal_spaces_for_money">2</string>
     <string name="preference_summary_bank_account">Bank account to receive money.</string>
     <string name="preference_title_bank_account">Bank account</string>
     <string name="preference_summary_currency_unit">Unit of currency. (e.g. $) Should be same with unit on bank notice message if you are using SMS parsing service below.</string>
     <string name="preference_title_currency_unit">Unit of currency</string>
     <string name="preference_summary_bill_format">Format of charge notice message will use.</string>
     <string name="preference_title_bill_format">Charge notice message format</string>
+    <string name="preference_summary_decimal_spaces_for_money">Decimal spaces to display money. Negative number available.</string>
+    <string name="preference_title_decimal_spaces_for_money">Decimal spaces for money</string>
     <string name="preference_summary_sms_parser_service_on">"If you are using bank's income\/outgo SMS notice service, read it and change payment state automatically."</string>
     <string name="preference_title_sms_parser_service_on">SMS parsing service</string>
     <string name="preference_summary_outgo_sms_phone_number">Incoming phone number of bank outgo notice message.</string>

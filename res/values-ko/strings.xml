@@ -47,12 +47,15 @@
     <string name="confirmed_by_sms">Confirmed by SMS</string>
     <string name="currency_unit_default">원</string>
     <string name="default_bill_format">Detailed</string>
+    <string name="default_decimal_spaces_for_money">0</string>
     <string name="preference_summary_bank_account">입금 받을 계좌 주소</string>
     <string name="preference_title_bank_account">계좌 주소</string>
     <string name="preference_summary_currency_unit">화폐 단위. (예 : 원) 아래의 문자 분석 서비스를 이용하신다면 은행의 알림 문자에서 표시되는 화폐 단위와 동일해야 합니다.</string>
     <string name="preference_title_currency_unit">화폐 단위</string>
     <string name="preference_summary_bill_format">공지에 사용할 정산 메세지 포맷.</string>
     <string name="preference_title_bill_format">정산 메세지 포맷</string>
+    <string name="preference_summary_decimal_spaces_for_money">정산 결과 금액 표시 시 사용할 소수점 자릿수(올림 계산됩니다). 음수로 입력 가능.(-2라면 백원 단위로 올림 계산됩니다)</string>
+    <string name="preference_title_decimal_spaces_for_money">금액 표시 소수점 자릿수</string>
     <string name="preference_summary_sms_parser_service_on">은행으로부터 결제 / 입금 문자 알림 서비스를 사용 중이라면, 해당 문자를 읽고 분석해 자동으로 결제 내역, 입금 상태를 설정합니다.</string>
     <string name="preference_title_sms_parser_service_on">문자 분석 서비스</string>
     <string name="preference_summary_outgo_sms_phone_number">결제 내역 알림 문자의 전화 번호.</string>
