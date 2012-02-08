@@ -577,7 +577,11 @@ public class EventDetailActivity extends ActionBarActivity {
 
             final TextView stateTextView = (TextView) memberView
                     .findViewById(R.id.member_item_stateTextView);
-            stateTextView.setText(stateTextArray[member.getmPaymentState().ordinal()]);
+            if (paymentId != -1) {
+                stateTextView.setVisibility(View.GONE);
+            } else {
+                stateTextView.setText(stateTextArray[member.getmPaymentState().ordinal()]);
+            }
 
             final QuickContactBadge quickContact = (QuickContactBadge) memberView
                     .findViewById(R.id.member_item_quickContactBadge);
