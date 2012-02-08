@@ -45,14 +45,13 @@ public class EventEditActivity extends ActionBarActivity {
     private TextView mFromTimeTextView;
     private TextView mToDateTextView;
     private TextView mToTimeTextView;
-    
+
     private View mAdView;
 
     private TimePickerDialog.OnTimeSetListener mEventFromTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            mStartCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            mStartCalendar.set(Calendar.MINUTE, minute);
+            setCalendars(-1, -1, -1, hourOfDay, minute, true);
             mFromTimeTextView.setText(TimeUtil.formatTimeToText(EventEditActivity.this,
                     mStartCalendar.getTimeInMillis(), false));
         }
@@ -61,8 +60,7 @@ public class EventEditActivity extends ActionBarActivity {
     private TimePickerDialog.OnTimeSetListener mEventToTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            mEndCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            mEndCalendar.set(Calendar.MINUTE, minute);
+            setCalendars(-1, -1, -1, hourOfDay, minute, false);
             mToTimeTextView.setText(TimeUtil.formatTimeToText(EventEditActivity.this,
                     mEndCalendar.getTimeInMillis(), false));
         }
@@ -71,9 +69,7 @@ public class EventEditActivity extends ActionBarActivity {
     private DatePickerDialog.OnDateSetListener mEventFromDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mStartCalendar.set(Calendar.YEAR, year);
-            mStartCalendar.set(Calendar.MONTH, monthOfYear);
-            mStartCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setCalendars(year, monthOfYear, dayOfMonth, -1, -1, true);
             mFromDateTextView.setText(TimeUtil.formatTimeToText(EventEditActivity.this,
                     mStartCalendar.getTimeInMillis(), true));
         }
@@ -82,13 +78,52 @@ public class EventEditActivity extends ActionBarActivity {
     private DatePickerDialog.OnDateSetListener mEventToDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mEndCalendar.set(Calendar.YEAR, year);
-            mEndCalendar.set(Calendar.MONTH, monthOfYear);
-            mEndCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setCalendars(year, monthOfYear, dayOfMonth, -1, -1, false);
             mToDateTextView.setText(TimeUtil.formatTimeToText(EventEditActivity.this,
                     mEndCalendar.getTimeInMillis(), true));
         }
     };
+
+    /**
+     * Set calendars of start time, end time and adjust start / end time if
+     * start time is later than end time or end time is earlier than start time.
+     * 
+     * @param year -1 if want to set time only.
+     * @param from true if want to set start time.
+     */
+    private void setCalendars(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minute,
+            boolean from) {
+        Calendar calendar = null;
+        if (from) {
+            calendar = mStartCalendar;
+        } else {
+            calendar = mEndCalendar;
+        }
+        if (year != -1) {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        } else {
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+        }
+
+        if (from && mStartCalendar.after(mEndCalendar)) {
+            mEndCalendar.setTime(mStartCalendar.getTime());
+            mEndCalendar.add(Calendar.HOUR_OF_DAY, DEFAULT_EVENT_TIME_LENGTH_IN_HOUR);
+            mToDateTextView.setText(TimeUtil.formatTimeToText(this, mEndCalendar.getTimeInMillis(),
+                    true));
+            mToTimeTextView.setText(TimeUtil.formatTimeToText(this, mEndCalendar.getTimeInMillis(),
+                    false));
+        } else if (!from && mEndCalendar.before(mStartCalendar)) {
+            mStartCalendar.setTime(mEndCalendar.getTime());
+            mStartCalendar.add(Calendar.HOUR_OF_DAY, -1 * DEFAULT_EVENT_TIME_LENGTH_IN_HOUR);
+            mFromDateTextView.setText(TimeUtil.formatTimeToText(this,
+                    mStartCalendar.getTimeInMillis(), true));
+            mFromTimeTextView.setText(TimeUtil.formatTimeToText(this,
+                    mStartCalendar.getTimeInMillis(), false));
+        }
+    }
 
     private View.OnClickListener mTimeTextViewClickListener = new View.OnClickListener() {
         @Override
@@ -125,7 +160,7 @@ public class EventEditActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.event_edit);
-        
+
         if (!DataManager.INSTANCE.isActive()) {
             DataManager.INSTANCE.setContext(getApplicationContext());
             DataManager.INSTANCE.loadDatas();
@@ -148,7 +183,7 @@ public class EventEditActivity extends ActionBarActivity {
         }
 
         initView();
-        
+
         mAdView = AdvertisementManager.getAdvertisementView(this);
         LinearLayout adLayout = (LinearLayout) findViewById(R.id.advertiseLayout);
         adLayout.addView(mAdView);
@@ -167,7 +202,7 @@ public class EventEditActivity extends ActionBarActivity {
         mStateSpinner = (Spinner) findViewById(R.id.event_edit_stateSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.event_states, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);        
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mStateSpinner.setAdapter(adapter);
         mStateSpinner.setSelection(mEvent.getmState().ordinal());
 
