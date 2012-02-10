@@ -97,7 +97,7 @@ public class MessageParserService extends Service implements DataManager.OnDataC
         if (!DataManager.INSTANCE.isActive()) {
             DataManager.INSTANCE.setContext(getApplicationContext());
             DataManager.INSTANCE.loadDatas();
-            DataManager.INSTANCE.setEventChangedListener(this);
+            DataManager.INSTANCE.registerEventChangedListener(this);
         } else {
             parseMessage();
         }
@@ -107,6 +107,7 @@ public class MessageParserService extends Service implements DataManager.OnDataC
     @Override
     public void onDataChanged() {
         parseMessage();
+        DataManager.INSTANCE.unregisterEventChangedListener(this);
     }
 
     private void parseMessage() {

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PaymentsManager implements DataManager.DataPracticeManager {
     private HashMap<Long, ArrayList<Payment>> mPayments = new HashMap<Long, ArrayList<Payment>>();
-    private OnDataChangedListener mListener;
+    private ArrayList<OnDataChangedListener> mListeners = new ArrayList<OnDataChangedListener>();
 
     private Context mContext;
 
@@ -118,19 +118,21 @@ public class PaymentsManager implements DataManager.DataPracticeManager {
     }
 
     private void notifyDataChanged() {
-        if (mListener != null) {
-            mListener.onDataChanged();
+        for (OnDataChangedListener listener : mListeners) {
+            listener.onDataChanged();
         }
     }
 
     @Override
-    public void setDataChangedListener(OnDataChangedListener listener) {
-        mListener = listener;
+    public void registerDataChangedListener(OnDataChangedListener listener) {
+        if (!mListeners.contains(listener)) {
+            mListeners.add(listener);
+        }
     }
 
     @Override
-    public void clearDataChangedListener(OnDataChangedListener listener) {
-        mListener = null;
+    public void unregisterDataChangedListener(OnDataChangedListener listener) {
+        mListeners.remove(listener);
     }
 
     private static final String[] PAYMENT_PROJECTION = {

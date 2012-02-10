@@ -47,6 +47,7 @@ public class EventDetailActivity extends ActionBarActivity {
 
     private int mEventPosition = -1;
     private Event mEvent;
+    private boolean mWaitEventLoading = false;
 
     private View mAdView;
 
@@ -94,6 +95,17 @@ public class EventDetailActivity extends ActionBarActivity {
             intent.putExtra(EXTRA_EVENT_ID, mEvent.getmId());
             intent.putExtra(EXTRA_PAYMENT_POSITION, position);
             startActivity(intent);
+        }
+    };
+
+    private DataManager.OnDataChangedListener mEventsChangedListener = new DataManager.OnDataChangedListener() {
+        @Override
+        public void onDataChanged() {
+            mWaitEventLoading = false;
+            if (DataManager.INSTANCE.getEvent(mEventPosition) != mEvent) {
+                initDataAndViews();
+            }
+
         }
     };
 
@@ -239,23 +251,23 @@ public class EventDetailActivity extends ActionBarActivity {
 
         setContentView(R.layout.event_detail);
 
-        if (!DataManager.INSTANCE.isActive()) {
-            DataManager.INSTANCE.setContext(getApplicationContext());
-            DataManager.INSTANCE.loadDatas();
-        }
-
         final Intent intent = getIntent();
         mEventPosition = intent.getIntExtra(EventsListActivity.EXTRA_EVENT_POSITION, -1);
         if (mEventPosition == -1) {
             Log.e(TAG, "Wrong event position! finish!");
             finish();
         }
-        mEvent = DataManager.INSTANCE.getEvent(mEventPosition);
-        initViews();
         setAddButtonsListener();
 
-        DataManager.INSTANCE.setPaymentsChangedListener(mPaymentsChangedListener);
-        DataManager.INSTANCE.setMembersChangedListener(mMembersChangedListener);
+        if (!DataManager.INSTANCE.isActive()) {
+            DataManager.INSTANCE.setContext(getApplicationContext());
+            DataManager.INSTANCE.registerEventChangedListener(mEventsChangedListener);
+            mWaitEventLoading = true;
+            DataManager.INSTANCE.loadDatas();
+        }
+
+        DataManager.INSTANCE.registerPaymentsChangedListener(mPaymentsChangedListener);
+        DataManager.INSTANCE.registerMembersChangedListener(mMembersChangedListener);
 
         mAdView = AdvertisementManager.getAdvertisementView(this);
         LinearLayout adLayout = (LinearLayout) findViewById(R.id.advertiseLayout);
@@ -266,13 +278,28 @@ public class EventDetailActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         AdvertisementManager.destroyAd(mAdView);
+
+        DataManager.INSTANCE.unregisterPaymentsChangedListener(mEventsChangedListener);
+        DataManager.INSTANCE.unregisterPaymentsChangedListener(mPaymentsChangedListener);
+        DataManager.INSTANCE.unregisterMembersChangedListener(mMembersChangedListener);
+    }
+
+    private void initDataAndViews() {
+        mEvent = DataManager.INSTANCE.getEvent(mEventPosition);
+        if (mEvent == null) {
+            Log.d(TAG, "Init with null event. Maybe event removed in background. finish.");
+            finish();
+            return;
+        }
+        initViews();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mEvent = DataManager.INSTANCE.getEvent(mEventPosition);
-        initViews();
+        if (!mWaitEventLoading) {
+            initDataAndViews();
+        }
     }
 
     @Override

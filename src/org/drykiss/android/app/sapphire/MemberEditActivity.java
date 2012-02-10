@@ -48,8 +48,8 @@ public class MemberEditActivity extends Activity implements View.OnClickListener
     private TextView mPaidDateTextView = null;
     private TextView mPaidTimeTextView = null;
     private Calendar mCalendar = null;
-    private boolean mCompletedBySMS = false;
-    
+    private boolean mWaitMemberLoading = false;
+
     private View mAdView;
 
     private TimePickerDialog.OnTimeSetListener mPaidTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -75,16 +75,38 @@ public class MemberEditActivity extends Activity implements View.OnClickListener
         }
     };
 
+    private DataManager.OnDataChangedListener mMembersChangedListener = new DataManager.OnDataChangedListener() {
+        @Override
+        public void onDataChanged() {
+            mWaitMemberLoading = false;
+            if (DataManager.INSTANCE.getMember(mEventId, mPaymentId, mMemberPosition) != mMember) {
+                initDataAndViews();
+            }
+        }
+    };
+
+    private void initDataAndViews() {
+        mMember = DataManager.INSTANCE.getMember(mEventId, mPaymentId, mMemberPosition);
+        if (mMember == null) {
+            Log.d(TAG, "Init with null member. Maybe removed in background. finish.");
+            finish();
+            return;
+        }
+        final long paidTime = mMember.getmPaidTime();
+        mCalendar = Calendar.getInstance();
+
+        if (mMember.getmPaymentState() == Member.PaymentState.COMPLETE && paidTime > 0) {
+            mCalendar.setTimeInMillis(paidTime);
+        }
+
+        initViews();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.member_edit);
-        
-        if (!DataManager.INSTANCE.isActive()) {
-            DataManager.INSTANCE.setContext(getApplicationContext());
-            DataManager.INSTANCE.loadDatas();
-        }
 
         final Intent intent = getIntent();
         mEventId = intent.getLongExtra(EventDetailActivity.EXTRA_EVENT_ID, -1);
@@ -97,16 +119,18 @@ public class MemberEditActivity extends Activity implements View.OnClickListener
                     + mMemberPosition + ". Something wrong! finish.");
             finish();
         }
-        mMember = DataManager.INSTANCE.getMember(mEventId, mPaymentId, mMemberPosition);
-        final long paidTime = mMember.getmPaidTime();
-        mCalendar = Calendar.getInstance();
 
-        if (mMember.getmPaymentState() == Member.PaymentState.COMPLETE && paidTime > 0) {
-            mCalendar.setTimeInMillis(paidTime);
+        if (!DataManager.INSTANCE.isActive()) {
+            DataManager.INSTANCE.setContext(getApplicationContext());
+            DataManager.INSTANCE.registerMembersChangedListener(mMembersChangedListener);
+            mWaitMemberLoading = true;
+            DataManager.INSTANCE.loadDatas();
         }
 
-        initViews();
-        
+        if (!mWaitMemberLoading) {
+            initDataAndViews();
+        }
+
         mAdView = AdvertisementManager.getAdvertisementView(this);
         LinearLayout adLayout = (LinearLayout) findViewById(R.id.advertiseLayout);
         adLayout.addView(mAdView);
@@ -116,6 +140,8 @@ public class MemberEditActivity extends Activity implements View.OnClickListener
     protected void onDestroy() {
         super.onDestroy();
         AdvertisementManager.destroyAd(mAdView);
+
+        DataManager.INSTANCE.unregisterMembersChangedListener(mMembersChangedListener);
     }
 
     private void initViews() {
@@ -178,7 +204,7 @@ public class MemberEditActivity extends Activity implements View.OnClickListener
 
         });
         mStateSpinner.setSelection(mMember.getmPaymentState().ordinal());
-        
+
         mPaidTimeLayout = findViewById(R.id.member_edit_paid_timeLayout);
         mPaidDateTextView = (TextView) findViewById(R.id.member_edit_paidDateTextView);
         mPaidTimeTextView = (TextView) findViewById(R.id.member_edit_paidTimeTextView);
@@ -190,7 +216,7 @@ public class MemberEditActivity extends Activity implements View.OnClickListener
         mPaidTimeTextView.setText(TimeUtil.formatTimeToText(this, mCalendar.getTimeInMillis(),
                 false));
 
-        final View confirmMsgLayout = findViewById(R.id.member_edit_confirmedBySmsLayout);        
+        final View confirmMsgLayout = findViewById(R.id.member_edit_confirmedBySmsLayout);
         if (TextUtils.isEmpty(mMember.getmPaymentConfirmMessage())) {
             confirmMsgLayout.setVisibility(View.GONE);
         } else {

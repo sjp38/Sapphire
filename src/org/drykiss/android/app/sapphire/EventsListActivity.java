@@ -36,7 +36,7 @@ public class EventsListActivity extends ActionBarActivity implements
 
         DataManager.INSTANCE.setContext(getApplicationContext());
         DataManager.INSTANCE.loadDatas();
-        DataManager.INSTANCE.setEventChangedListener(this);
+        DataManager.INSTANCE.registerEventChangedListener(this);
 
         mListView = (ListView) findViewById(R.id.eventsListView);
         mAdapter = new EventsAdapter();
@@ -51,6 +51,8 @@ public class EventsListActivity extends ActionBarActivity implements
     protected void onDestroy() {
         super.onDestroy();
         AdvertisementManager.destroyAd(mAdView);
+
+        DataManager.INSTANCE.unregisterEventChangedListener(this);
     }
 
     @Override

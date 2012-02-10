@@ -33,7 +33,8 @@ public class PaymentEditActivity extends Activity implements
     private EditText mCostEditText;
     private TextView mPaidDateTextView;
     private TextView mPaidTimeTextView;
-    
+    private boolean mWaitPaymentLoading = false;
+
     private View mAdView;
 
     private TimePickerDialog.OnTimeSetListener mPaidTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -61,16 +62,34 @@ public class PaymentEditActivity extends Activity implements
         }
     };
 
+    private DataManager.OnDataChangedListener mPaymentsChangedListener = new DataManager.OnDataChangedListener() {
+        @Override
+        public void onDataChanged() {
+            mWaitPaymentLoading = false;
+            initDataAndViews();
+        }
+    };
+
+    private void initDataAndViews() {
+        if (mPaymentPosition == -1) {
+            return;
+        }
+        mPayment = DataManager.INSTANCE.getPayment(mEventId,
+                mPaymentPosition);
+        if (mPayment == null) {
+            Log.d(TAG, "Init with null payment. Maybe removed background. finish.");
+            finish();
+            return;
+        }
+        mCalendar.setTimeInMillis(mPayment.getmTime());
+        initViews();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.payment_edit);
-        
-        if (!DataManager.INSTANCE.isActive()) {
-            DataManager.INSTANCE.setContext(getApplicationContext());
-            DataManager.INSTANCE.loadDatas();
-        }
 
         final Intent intent = getIntent();
         mEventId = intent.getLongExtra(EventDetailActivity.EXTRA_EVENT_ID, -1);
@@ -80,16 +99,24 @@ public class PaymentEditActivity extends Activity implements
             Log.e(TAG, "Created with event id -1. Something wrong! finish.");
             finish();
         }
+
+        if (!DataManager.INSTANCE.isActive()) {
+            DataManager.INSTANCE.setContext(getApplicationContext());
+            DataManager.INSTANCE.registerPaymentsChangedListener(mPaymentsChangedListener);
+            mWaitPaymentLoading = true;
+            DataManager.INSTANCE.loadDatas();
+        }
+
         mCalendar = Calendar.getInstance();
         if (mPaymentPosition == -1) {
             mPayment = new Payment(-1, mEventId, "",
                     mCalendar.getTimeInMillis(), 0);
+            initViews();
         } else {
-            mPayment = DataManager.INSTANCE.getPayment(mEventId,
-                    mPaymentPosition);
-            mCalendar.setTimeInMillis(mPayment.getmTime());
+            if (!mWaitPaymentLoading) {
+                initDataAndViews();
+            }
         }
-        initViews();
 
         mAdView = AdvertisementManager.getAdvertisementView(this);
         LinearLayout adLayout = (LinearLayout) findViewById(R.id.advertiseLayout);
@@ -100,6 +127,8 @@ public class PaymentEditActivity extends Activity implements
     protected void onDestroy() {
         super.onDestroy();
         AdvertisementManager.destroyAd(mAdView);
+
+        DataManager.INSTANCE.unregisterPaymentsChangedListener(mPaymentsChangedListener);
     }
 
     private void initViews() {

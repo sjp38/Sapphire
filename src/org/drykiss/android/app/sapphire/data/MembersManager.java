@@ -25,7 +25,7 @@ public class MembersManager implements DataManager.DataPracticeManager {
     private static final int LOAD_EVENT_MEMBER = 1;
     private static final int LOAD_PAYMENT_MEMBER = 2;
 
-    private OnDataChangedListener mListener;
+    private ArrayList<OnDataChangedListener> mListeners = new ArrayList<OnDataChangedListener>();
     private Context mContext;
 
     private HashMap<Long, ArrayList<Member>> mEventMembers = new HashMap<Long, ArrayList<Member>>();
@@ -113,7 +113,7 @@ public class MembersManager implements DataManager.DataPracticeManager {
         }
         final Member oldMember = members.get(position);
         final ContentValues values = oldMember.getDiff(member);
-        if (values.size() <=0) {
+        if (values.size() <= 0) {
             return;
         }
         final Uri uri = ContentUris.withAppendedId(
@@ -189,19 +189,21 @@ public class MembersManager implements DataManager.DataPracticeManager {
     }
 
     public void notifyDataChanged() {
-        if (mListener != null) {
-            mListener.onDataChanged();
+        for (OnDataChangedListener listener : mListeners) {
+            listener.onDataChanged();
         }
     }
 
     @Override
-    public void setDataChangedListener(OnDataChangedListener listener) {
-        mListener = listener;
+    public void registerDataChangedListener(OnDataChangedListener listener) {
+        if (!mListeners.contains(listener)) {
+            mListeners.add(listener);
+        }
     }
 
     @Override
-    public void clearDataChangedListener(OnDataChangedListener listener) {
-        mListener = null;
+    public void unregisterDataChangedListener(OnDataChangedListener listener) {
+        mListeners.remove(listener);
     }
 
     /**

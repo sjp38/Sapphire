@@ -23,8 +23,6 @@ import com.example.android.actionbarcompat.ActionBarActivity;
 import org.drykiss.android.app.sapphire.ad.AdvertisementManager;
 import org.drykiss.android.app.sapphire.data.DataManager;
 import org.drykiss.android.app.sapphire.data.Event;
-import org.drykiss.android.app.sapphire.data.Member;
-import org.drykiss.android.app.sapphire.data.Member.PaymentState;
 import org.drykiss.android.app.sapphire.util.TimeUtil;
 
 import java.util.Calendar;
@@ -45,6 +43,7 @@ public class EventEditActivity extends ActionBarActivity {
     private TextView mFromTimeTextView;
     private TextView mToDateTextView;
     private TextView mToTimeTextView;
+    private boolean mWaitEventLoading = false;
 
     private View mAdView;
 
@@ -81,6 +80,16 @@ public class EventEditActivity extends ActionBarActivity {
             setCalendars(year, monthOfYear, dayOfMonth, -1, -1, false);
             mToDateTextView.setText(TimeUtil.formatTimeToText(EventEditActivity.this,
                     mEndCalendar.getTimeInMillis(), true));
+        }
+    };
+
+    private DataManager.OnDataChangedListener mEventsChangedListener = new DataManager.OnDataChangedListener() {
+        @Override
+        public void onDataChanged() {
+            mWaitEventLoading = false;
+            if (DataManager.INSTANCE.getEvent(mEventPosition) != mEvent) {
+                initDataAndViews();
+            }
         }
     };
 
@@ -155,34 +164,52 @@ public class EventEditActivity extends ActionBarActivity {
         }
     };
 
+    private void initDataAndViews() {
+        if (mEventPosition == -1) {
+            return;
+        }
+        mEvent = DataManager.INSTANCE.getEvent(mEventPosition);
+        if (mEvent == null) {
+            Log.d(TAG, "Init with null event. Maybe removed in background. finish.");
+            finish();
+            return;
+        }
+        mStartCalendar = Calendar.getInstance();
+        mStartCalendar.setTimeInMillis(mEvent.getmStartTime());
+        mEndCalendar = Calendar.getInstance();
+        mEndCalendar.setTimeInMillis(mEvent.getmEndTime());
+
+        initView();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.event_edit);
 
+        final Intent intent = getIntent();
+        mEventPosition = intent.getIntExtra(EventsListActivity.EXTRA_EVENT_POSITION, -1);
+
         if (!DataManager.INSTANCE.isActive()) {
             DataManager.INSTANCE.setContext(getApplicationContext());
+            DataManager.INSTANCE.registerEventChangedListener(mEventsChangedListener);
+            mWaitEventLoading = true;
             DataManager.INSTANCE.loadDatas();
         }
 
-        final Intent intent = getIntent();
-        mEventPosition = intent.getIntExtra(EventsListActivity.EXTRA_EVENT_POSITION, -1);
         if (mEventPosition == -1) {
             mStartCalendar = Calendar.getInstance();
             mEndCalendar = Calendar.getInstance();
             mEndCalendar.add(Calendar.HOUR, DEFAULT_EVENT_TIME_LENGTH_IN_HOUR);
             mEvent = new Event(-1, "", mStartCalendar.getTimeInMillis(),
                     mEndCalendar.getTimeInMillis(), -1, "", Event.State.IDLE);
+            initView();
         } else {
-            mEvent = DataManager.INSTANCE.getEvent(mEventPosition);
-            mStartCalendar = Calendar.getInstance();
-            mStartCalendar.setTimeInMillis(mEvent.getmStartTime());
-            mEndCalendar = Calendar.getInstance();
-            mEndCalendar.setTimeInMillis(mEvent.getmEndTime());
+            if (!mWaitEventLoading) {
+                initDataAndViews();
+            }
         }
-
-        initView();
 
         mAdView = AdvertisementManager.getAdvertisementView(this);
         LinearLayout adLayout = (LinearLayout) findViewById(R.id.advertiseLayout);
@@ -193,6 +220,8 @@ public class EventEditActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         AdvertisementManager.destroyAd(mAdView);
+
+        DataManager.INSTANCE.unregisterEventChangedListener(mEventsChangedListener);
     }
 
     private void initView() {

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.drykiss.android.app.sapphire.data.DataManager.OnDataChangedListener;
 import org.drykiss.android.app.sapphire.provider.SapphireProvider;
@@ -21,7 +20,7 @@ public class EventsManager implements DataManager.DataPracticeManager {
     private Context mContext;
     private ArrayList<Event> mEvents = new ArrayList<Event>();
     private HashMap<Long, Integer> mEventsMap = new HashMap<Long, Integer>();
-    private OnDataChangedListener mListener;
+    private ArrayList<OnDataChangedListener> mListeners = new ArrayList<OnDataChangedListener>();
 
     public EventsManager(Context context) {
         mContext = context;
@@ -92,18 +91,20 @@ public class EventsManager implements DataManager.DataPracticeManager {
     }
 
     @Override
-    public void setDataChangedListener(OnDataChangedListener listener) {
-        mListener = listener;
+    public void registerDataChangedListener(OnDataChangedListener listener) {
+        if (!mListeners.contains(listener)) {
+            mListeners.add(listener);
+        }
     }
 
     @Override
-    public void clearDataChangedListener(OnDataChangedListener listener) {
-        mListener = null;
+    public void unregisterDataChangedListener(OnDataChangedListener listener) {
+        mListeners.remove(listener);
     }
 
     private void notifyDataChanged() {
-        if (mListener != null) {
-            mListener.onDataChanged();
+        for (OnDataChangedListener listener : mListeners) {
+            listener.onDataChanged();
         }
     }
 

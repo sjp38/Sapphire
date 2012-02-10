@@ -23,23 +23,21 @@ public class DataManager {
     }
 
     public void setContext(Context context) {
+        if (mEventsManager == null) {
+            mEventsManager = new EventsManager(context);
+        }
+        if (mPaymentsManager == null) {
+            mPaymentsManager = new PaymentsManager(context);
+        }
+        if (mMembersManager == null) {
+            mMembersManager = new MembersManager(context);
+        }
         mContext = context;
     }
 
     public void loadDatas() {
-        if (mEventsManager == null) {
-            mEventsManager = new EventsManager(mContext);
-        }
         mEventsManager.loadDatas();
-
-        if (mPaymentsManager == null) {
-            mPaymentsManager = new PaymentsManager(mContext);
-        }
         mPaymentsManager.loadDatas();
-
-        if (mMembersManager == null) {
-            mMembersManager = new MembersManager(mContext);
-        }
         mMembersManager.loadDatas();
         mIsActive = true;
     }
@@ -79,8 +77,12 @@ public class DataManager {
         return mEventsManager.getCount();
     }
 
-    public void setEventChangedListener(OnDataChangedListener listener) {
-        mEventsManager.setDataChangedListener(listener);
+    public void registerEventChangedListener(OnDataChangedListener listener) {
+        mEventsManager.registerDataChangedListener(listener);
+    }
+
+    public void unregisterEventChangedListener(OnDataChangedListener listener) {
+        mEventsManager.unregisterDataChangedListener(listener);
     }
 
     public Payment getPayment(long eventId, int position) {
@@ -106,8 +108,12 @@ public class DataManager {
         return mPaymentsManager.getCount(eventId);
     }
 
-    public void setPaymentsChangedListener(OnDataChangedListener listener) {
-        mPaymentsManager.setDataChangedListener(listener);
+    public void registerPaymentsChangedListener(OnDataChangedListener listener) {
+        mPaymentsManager.registerDataChangedListener(listener);
+    }
+
+    public void unregisterPaymentsChangedListener(OnDataChangedListener listener) {
+        mPaymentsManager.unregisterDataChangedListener(listener);
     }
 
     /**
@@ -145,8 +151,12 @@ public class DataManager {
         return mMembersManager.getCount(eventId, paymentId);
     }
 
-    public void setMembersChangedListener(OnDataChangedListener listener) {
-        mMembersManager.setDataChangedListener(listener);
+    public void registerMembersChangedListener(OnDataChangedListener listener) {
+        mMembersManager.registerDataChangedListener(listener);
+    }
+
+    public void unregisterMembersChangedListener(OnDataChangedListener listener) {
+        mMembersManager.unregisterDataChangedListener(listener);
     }
 
     public ArrayList<ChargeCalcResult> calculate(long eventId) {
@@ -156,9 +166,9 @@ public class DataManager {
     public interface DataPracticeManager {
         void loadDatas();
 
-        void setDataChangedListener(OnDataChangedListener listener);
+        void registerDataChangedListener(OnDataChangedListener listener);
 
-        void clearDataChangedListener(OnDataChangedListener listener);
+        void unregisterDataChangedListener(OnDataChangedListener listener);
     }
 
     public interface OnDataChangedListener {
