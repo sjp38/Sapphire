@@ -101,17 +101,19 @@ public class EventDetailActivity extends ActionBarActivity {
     private DataManager.OnDataChangedListener mEventsChangedListener = new DataManager.OnDataChangedListener() {
         @Override
         public void onDataChanged() {
-            mWaitEventLoading = false;
             if (DataManager.INSTANCE.getEvent(mEventPosition) != mEvent) {
                 initDataAndViews();
             }
-
+            mWaitEventLoading = false;
         }
     };
 
     private DataManager.OnDataChangedListener mPaymentsChangedListener = new DataManager.OnDataChangedListener() {
         @Override
         public void onDataChanged() {
+            if (mWaitEventLoading) {
+                return;
+            }
             addPaymentViews();
             final TextView calculateResult = (TextView) findViewById(R.id.event_detail_calculateTextView);
             calculateResult.setText(formatChargeResult(false));
@@ -121,6 +123,9 @@ public class EventDetailActivity extends ActionBarActivity {
     private DataManager.OnDataChangedListener mMembersChangedListener = new DataManager.OnDataChangedListener() {
         @Override
         public void onDataChanged() {
+            if (mWaitEventLoading) {
+                return;
+            }
             addPaymentViews();
             addMemberViews(mEvent.getmId(), -1, null);
             final TextView calculateResult = (TextView) findViewById(R.id.event_detail_calculateTextView);
