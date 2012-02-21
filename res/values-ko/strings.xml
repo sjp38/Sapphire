@@ -67,6 +67,7 @@
     <string name="preference_summary_income_sms_keyword">입금 내역 알림 문자에 항상 포함되는 키워드(ex : 입금).</string>
     <string name="preference_title_income_sms_keyword">입금 알림 문자 키워드</string>
     <string name="account">입금계좌  : <xliff:g id="account">%s</xliff:g></string>
+    <string name="description_for_negative_number_on_payment">회비 지원과 같은 경우 금액을 음수로 입력하시면 됩니다.</string>
 
     <string-array name="notice_to">
         <item>이메일 주소의 멤버들</item>

@@ -67,6 +67,7 @@
     <string name="preference_summary_income_sms_keyword">Keyword that always bank income notice message contains.</string>
     <string name="preference_title_income_sms_keyword">Keyword for income notice</string>
     <string name="account">Account : <xliff:g id="account">%s</xliff:g></string>
+    <string name="description_for_negative_number_on_payment">Can be negative number for some special case such as support from public.</string>
 
     <string-array name="notice_to">
         <item>members with email address</item>
