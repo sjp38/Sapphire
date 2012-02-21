@@ -31,6 +31,7 @@ public class EventEditActivity extends ActionBarActivity {
     private static final String TAG = "Sapphire_event_edit_activity";
 
     private static final int DEFAULT_EVENT_TIME_LENGTH_IN_HOUR = 2;
+    public static final String EXTRA_EVENT_DELETED = "org.drykiss.android.app.sapphire.EXTRA_EVENT_DELETED";
 
     private Calendar mStartCalendar;
     private Calendar mEndCalendar;
@@ -314,5 +315,9 @@ public class EventEditActivity extends ActionBarActivity {
             return;
         }
         DataManager.INSTANCE.removeEvent(mEventPosition);
+        Intent data = new Intent();
+        data.putExtra(EXTRA_EVENT_DELETED, true);
+        setResult(RESULT_OK, data);
+        finish();
     }
 }

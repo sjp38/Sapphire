@@ -44,6 +44,7 @@ public class EventDetailActivity extends ActionBarActivity {
     public static final String EXTRA_MEMBER_POSITION = "org.drykiss.android.app.sapphire.EXTRA_MEMBER_POSITION";
 
     private static final int PICK_CONTACT_REQUEST = 1;
+    private static final int EVENT_DETAIL_REQUEST = 2;
 
     private int mEventPosition = -1;
     private Event mEvent;
@@ -309,51 +310,59 @@ public class EventDetailActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        final Cursor cursor = (managedQuery(data.getData(), null, null, null, null));
-        while (cursor.moveToNext()) {
-            final String name = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-            final long contactId = cursor.getLong(cursor
-                    .getColumnIndex(ContactsContract.Contacts._ID));
-            final String lookupId = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-            final long photoId = cursor.getLong(cursor
-                    .getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
-
-            final ArrayList<CharSequence> addressList = new ArrayList<CharSequence>();
-
-            appendEmailAddress(this, contactId, addressList);
-
-            final int hasPhone = cursor.getInt(cursor
-                    .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-            if (hasPhone == 1) {
-                appendPhoneNumbers(this, contactId, addressList);
+        if (requestCode == EVENT_DETAIL_REQUEST && resultCode == RESULT_OK) {
+            if (data.getBooleanExtra(EventEditActivity.EXTRA_EVENT_DELETED, false)) {
+                finish();
             }
-            if (addressList.size() <= 0) {
-                Toast.makeText(this, R.string.warning_no_address, Toast.LENGTH_SHORT).show();
-                continue;
+        } else if (requestCode == PICK_CONTACT_REQUEST) {
+            if (resultCode != RESULT_OK) {
+                return;
             }
+            final Cursor cursor = (managedQuery(data.getData(), null, null, null, null));
+            while (cursor.moveToNext()) {
+                final String name = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                final long contactId = cursor.getLong(cursor
+                        .getColumnIndex(ContactsContract.Contacts._ID));
+                final String lookupId = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+                final long photoId = cursor.getLong(cursor
+                        .getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
 
-            CharSequence[] addressArray = new CharSequence[addressList.size()];
-            addressArray = addressList.toArray(addressArray);
+                final ArrayList<CharSequence> addressList = new ArrayList<CharSequence>();
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.dialog_select_address_to_send_notice_title, name));
-            builder.setItems(addressArray, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Member member = new Member(-1, mEvent.getmId(), -1,
-                            contactId, lookupId, photoId, name, addressList.get(which).toString(),
-                            Member.PaymentState.IDLE, -1, "", 100, "");
-                    DataManager.INSTANCE.addMember(member);
+                appendEmailAddress(this, contactId, addressList);
 
-                    addMemberViews(mEvent.getmId(), -1, null);
+                final int hasPhone = cursor.getInt(cursor
+                        .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                if (hasPhone == 1) {
+                    appendPhoneNumbers(this, contactId, addressList);
                 }
-            });
-            builder.show();
+                if (addressList.size() <= 0) {
+                    Toast.makeText(this, R.string.warning_no_address, Toast.LENGTH_SHORT).show();
+                    continue;
+                }
+
+                CharSequence[] addressArray = new CharSequence[addressList.size()];
+                addressArray = addressList.toArray(addressArray);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.dialog_select_address_to_send_notice_title,
+                        name));
+                builder.setItems(addressArray, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Member member = new Member(-1, mEvent.getmId(), -1,
+                                contactId, lookupId, photoId, name, addressList.get(which)
+                                        .toString(),
+                                Member.PaymentState.IDLE, -1, "", 100, "");
+                        DataManager.INSTANCE.addMember(member);
+
+                        addMemberViews(mEvent.getmId(), -1, null);
+                    }
+                });
+                builder.show();
+            }
         }
     }
 
@@ -400,7 +409,7 @@ public class EventDetailActivity extends ActionBarActivity {
             case R.id.menu_action_edit:
                 Intent intent = new Intent(this, EventEditActivity.class);
                 intent.putExtra(EventsListActivity.EXTRA_EVENT_POSITION, mEventPosition);
-                startActivity(intent);
+                startActivityForResult(intent, EVENT_DETAIL_REQUEST);
                 break;
             default:
                 break;
