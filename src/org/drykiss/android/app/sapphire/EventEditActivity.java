@@ -310,7 +310,7 @@ public class EventEditActivity extends ActionBarActivity {
     }
 
     public void onDeleteButtonClicked(View v) {
-        if (mEventPosition <= 0) {
+        if (mEventPosition < 0) {
             finish();
             return;
         }
