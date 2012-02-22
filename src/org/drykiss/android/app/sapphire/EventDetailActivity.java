@@ -144,7 +144,7 @@ public class EventDetailActivity extends ActionBarActivity {
             final String billFormat = prefs.getString(SettingsActivity.KEY_BILL_FORMAT,
                     getString(R.string.default_bill_format));
             final String message = account + "\n" + formatChargeResult(!billFormat
-                    .equals(R.string.default_bill_format));
+                    .equals(getString(R.string.default_bill_format)));
 
             final int membersCount = DataManager.INSTANCE.getMemberCount(mEvent.getmId(), -1);
             final ArrayList<Member> emailMembers = new ArrayList<Member>();
