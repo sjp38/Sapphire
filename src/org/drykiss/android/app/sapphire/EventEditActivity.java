@@ -88,6 +88,9 @@ public class EventEditActivity extends ActionBarActivity {
         @Override
         public void onDataChanged() {
             mWaitEventLoading = false;
+            if (mEventPosition == -1) {
+                return;
+            }
             if (DataManager.INSTANCE.getEvent(mEventPosition) != mEvent) {
                 initDataAndViews();
             }
