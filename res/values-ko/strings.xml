@@ -36,6 +36,7 @@
     <string name="setting_button_discard">취소</string>
     <string name="setting_button_delete">삭제</string>
     <string name="send_notice">정산 메세지 보내기</string>
+    <string name="send_notice_description_about_receiver">입금 안된 멤버들만 수신처에 포함됩니다.</string>
     <string name="member_item_alloc_ratio">할당율  : <xliff:g id="alloc_percentage">%s</xliff:g>(<xliff:g id="alloc_reason">%s</xliff:g>)</string>
     <string name="symbol_percent">        <![CDATA["% "]]>
     </string>

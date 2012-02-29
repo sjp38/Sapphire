@@ -152,8 +152,13 @@ public class EventDetailActivity extends ActionBarActivity {
 
             final ArrayList<String> phoneNumbers = new ArrayList<String>();
             final ArrayList<String> emails = new ArrayList<String>();
+            boolean paidMemberExist = false;
             for (int i = 0; i < membersCount; i++) {
                 Member member = DataManager.INSTANCE.getMember(mEvent.getmId(), -1, i);
+                if (member.getmPaymentState() == Member.PaymentState.COMPLETE) {
+                    paidMemberExist = true;
+                    continue;
+                }
                 final String address = member.getmAddress();
                 if (isEmailAddress(address)) {
                     emailMembers.add(member);
@@ -163,6 +168,11 @@ public class EventDetailActivity extends ActionBarActivity {
                     phoneNumbers.add(address);
                 }
             }
+            if (paidMemberExist) {
+                Toast.makeText(EventDetailActivity.this,
+                        R.string.send_notice_description_about_receiver, Toast.LENGTH_SHORT).show();
+            }
+
             if (emails.size() > 0 && phoneNumbers.size() > 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(EventDetailActivity.this);
                 builder.setTitle(R.string.dialog_notice_to_title);
@@ -466,7 +476,11 @@ public class EventDetailActivity extends ActionBarActivity {
         if (isEmail) {
             String[] emailAddressArray = new String[addressList.size()];
             emailAddressArray = addressList.toArray(emailAddressArray);
-            intent.putExtra(android.content.Intent.EXTRA_EMAIL, emailAddressArray);
+            if (mEvent.getmState() == Event.State.NOTICED) {
+                intent.putExtra(Intent.EXTRA_BCC, emailAddressArray);
+            } else {
+                intent.putExtra(android.content.Intent.EXTRA_CC, emailAddressArray);
+            }
         } else {
             String address = "";
             for (String phoneNumber : addressList) {

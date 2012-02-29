@@ -36,6 +36,7 @@
     <string name="setting_button_discard">Discard</string>
     <string name="setting_button_delete">Delete</string>
     <string name="send_notice">Send notice message</string>
+    <string name="send_notice_description_about_receiver">Only unpaid members added to receipients.</string>
     <string name="member_item_alloc_ratio">Ratio : <xliff:g id="alloc_percentage">%s</xliff:g>(<xliff:g id="alloc_reason">%s</xliff:g>)</string>
     <string name="symbol_percent">        <![CDATA["% "]]>
     </string>
