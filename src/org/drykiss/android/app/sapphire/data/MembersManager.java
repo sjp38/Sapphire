@@ -16,6 +16,7 @@ import org.drykiss.android.app.sapphire.provider.SapphireProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,6 +90,7 @@ public class MembersManager implements DataManager.DataPracticeManager {
 
         members.remove(position);
         members.add(position, member);
+        Collections.sort(members);
 
         notifyDataChanged();
     }
@@ -122,6 +124,7 @@ public class MembersManager implements DataManager.DataPracticeManager {
 
         members.remove(position);
         members.add(position, member);
+        Collections.sort(members);
 
         notifyDataChanged();
     }
@@ -144,6 +147,7 @@ public class MembersManager implements DataManager.DataPracticeManager {
         member.mId = Long.valueOf(segments.get(segments.size() - 1));
 
         members.add(member);
+        Collections.sort(members);
         notifyDataChanged();
     }
 
@@ -388,11 +392,13 @@ public class MembersManager implements DataManager.DataPracticeManager {
 
                 if (task == LOAD_EVENT_MEMBER && lastParentEvent != -1
                         && lastParentEvent != parentEvent) {
+                    Collections.sort(newMembers);
                     mEventMembers.put(lastParentEvent, newMembers);
                     newMembers = new ArrayList<Member>();
                 } else if (task == LOAD_PAYMENT_MEMBER
                         && lastParentPayment != -1
                         && lastParentPayment != parentPayment) {
+                    Collections.sort(newMembers);
                     mPaymentMembers.put(lastParentPayment, newMembers);
                     newMembers = new ArrayList<Member>();
                 }
@@ -406,8 +412,10 @@ public class MembersManager implements DataManager.DataPracticeManager {
                 newMembers.add(member);
             } while (cursor.moveToNext());
             if (task == LOAD_EVENT_MEMBER) {
+                Collections.sort(newMembers);
                 mEventMembers.put(lastParentEvent, newMembers);
             } else {
+                Collections.sort(newMembers);
                 mPaymentMembers.put(lastParentPayment, newMembers);
             }
         }

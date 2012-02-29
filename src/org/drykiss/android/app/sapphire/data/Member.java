@@ -5,7 +5,7 @@ import android.content.ContentValues;
 
 import org.drykiss.android.app.sapphire.provider.SapphireProvider;
 
-public class Member {
+public class Member implements Comparable<Member> {
     public static enum PaymentState {
         IDLE, NOTICED, COMPLETE;
     }
@@ -110,6 +110,16 @@ public class Member {
                     newMember.mPaymentConfirmMessage);
         }
         return result;
+    }
+
+    @Override
+    public int compareTo(Member another) {
+        final int thisState = mPaymentState.ordinal();
+        final int anotherState = another.mPaymentState.ordinal();
+        if (thisState != anotherState) {
+            return thisState - anotherState;
+        }
+        return mName.compareTo(another.mName);
     }
 
     @Override
