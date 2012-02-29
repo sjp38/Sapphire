@@ -199,33 +199,6 @@ public class EventDetailActivity extends ActionBarActivity {
             } else {
                 sendNotice(message, phoneNumbers, phoneNumberMembers, false);
             }
-
-            if (phoneNumbers.size() <= 0 || emails.size() <= 0) {
-                if (mEvent.getmState() == Event.State.IDLE) {
-                    Event newEvent = new Event(mEvent);
-                    newEvent.setmState(Event.State.NOTICED);
-                    DataManager.INSTANCE.updateEvent(mEventPosition, newEvent);
-                    mEvent = newEvent;
-                } else {
-                    int idleStateCount = 0;
-                    for (Member member : emailMembers) {
-                        if (member.getmPaymentState() == Member.PaymentState.IDLE) {
-                            idleStateCount++;
-                        }
-                    }
-                    for (Member member : phoneNumberMembers) {
-                        if (member.getmPaymentState() == Member.PaymentState.IDLE) {
-                            idleStateCount++;
-                        }
-                    }
-                    if (idleStateCount == 0 && mEvent.getmState() == Event.State.IDLE) {
-                        Event newEvent = new Event(mEvent);
-                        newEvent.setmState(Event.State.NOTICED);
-                        DataManager.INSTANCE.updateEvent(mEventPosition, newEvent);
-                        mEvent = newEvent;
-                    }
-                }
-            }
         }
     };
 
@@ -494,6 +467,26 @@ public class EventDetailActivity extends ActionBarActivity {
             newMember.setmPaymentState(Member.PaymentState.NOTICED);
             DataManager.INSTANCE.updateMember(newMember);
         }
+
+        if (mEvent.getmState() == Event.State.IDLE) {
+            boolean unpaidMemberExist = false;
+            final long eventId = mEvent.getmId();
+            final int memberCount = DataManager.INSTANCE.getMemberCount(eventId, -1);
+            for (int i = 0; i < memberCount; i++) {
+                Member member = DataManager.INSTANCE.getMember(eventId, -1, i);
+                if (member.getmPaymentState() == Member.PaymentState.IDLE) {
+                    unpaidMemberExist = true;
+                    break;
+                }
+            }
+            if (!unpaidMemberExist) {
+                Event newEvent = new Event(mEvent);
+                newEvent.setmState(Event.State.NOTICED);
+                DataManager.INSTANCE.updateEvent(mEventPosition, newEvent);
+                mEvent = newEvent;
+            }
+        }
+
         startActivity(intent);
     }
 
