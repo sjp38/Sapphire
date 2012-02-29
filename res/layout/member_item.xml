@@ -21,7 +21,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="홍길동"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -29,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
-                android:text="Rate : 50%(중간 참가)"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -37,7 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
-                android:text="할당 공지됨"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 

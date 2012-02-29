@@ -23,8 +23,6 @@
     <string name="exceptional_allocation_rules">예외 할당율</string>
     <string name="cost">결제 금액</string>
     <string name="paid_time">결제 시각</string>
-    <string name="dialog_positive_button">확인</string>
-    <string name="dialog_negative_button">취소</string>
     <string name="date_format">"yyyy.MM.dd"</string>
     <string name="time_format">hh:mm aa"</string>
     <string name="warning_event_must_have_name">이름이 있어야 합니다.</string>
@@ -69,6 +67,10 @@
     <string name="preference_title_income_sms_keyword">입금 알림 문자 키워드</string>
     <string name="account">입금계좌  : <xliff:g id="account">%s</xliff:g></string>
     <string name="description_for_negative_number_on_payment">회비 지원과 같은 경우 금액을 음수로 입력하시면 됩니다.</string>
+    <string name="event_detail_addPaymentImageButtonDescription">결제 내역 추가</string>
+    <string name="event_detail_addMemberImageButtonDescription">멤버 추가</string>
+    <string name="eventRemoveImageButtonDescription">모임 삭제</string>
+    <string name="payment_item_addExceptionalPaymentRuleImageButtonDescription">예외 할당율 추가</string>
 
     <string-array name="notice_to">
         <item>이메일 주소의 멤버들</item>

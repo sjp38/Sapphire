@@ -85,7 +85,8 @@
                 android:id="@+id/member_edit_allocReasonEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/underTitleItemLeftMargin" />
+                android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
+                android:inputType="text" />
 
             <LinearLayout
                 android:id="@+id/member_edit_forEventMemberLayout"
@@ -161,7 +162,6 @@
                             android:id="@+id/member_edit_paidDateTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2012.01.03"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <TextView
@@ -169,7 +169,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dip"
-                            android:text="PM 05:30"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
                     </LinearLayout>
                 </LinearLayout>
@@ -191,7 +190,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
-                        android:text="Confirmed by SMS : 외환은행 입금 12/31 21:12"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </LinearLayout>
             </LinearLayout>
@@ -207,7 +205,6 @@
         android:id="@+id/advertiseLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:baselineAligned="true" />
 
 </LinearLayout>

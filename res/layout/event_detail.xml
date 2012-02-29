@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="크리스마스 동기 모임"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -19,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
-        android:text="2011.01.03 03:40 PM 계산내용 공지"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <View
@@ -32,7 +30,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:layout_weight="1" >
 
         <LinearLayout
@@ -56,7 +54,6 @@
                     android:id="@+id/event_detail_fromDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2011.12.24"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -64,7 +61,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="PM 3:00"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
@@ -84,7 +80,6 @@
                     android:id="@+id/event_detail_toDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2011.12.24"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -92,7 +87,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="PM 10:00"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
@@ -121,7 +115,8 @@
                     android:id="@+id/event_detail_addPaymentImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_add_middle_size" />
+                    android:background="@drawable/ic_add_middle_size"
+                    android:contentDescription="@string/event_detail_addPaymentImageButtonDescription" />
             </LinearLayout>
 
             <View
@@ -157,7 +152,8 @@
                     android:id="@+id/event_detail_addMemberImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_add_middle_size" />
+                    android:background="@drawable/ic_add_middle_size"
+                    android:contentDescription="@string/event_detail_addMemberImageButtonDescription" />
             </LinearLayout>
 
             <View
@@ -187,7 +183,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
-                android:text="1차 : 50000원, 2차 : 30000원. 각자 10000원"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
@@ -202,7 +197,6 @@
         android:id="@+id/advertiseLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:baselineAligned="true" />
 
 </LinearLayout>

@@ -23,8 +23,6 @@
     <string name="exceptional_allocation_rules">Exceptional allocation rules</string>
     <string name="cost">Cost</string>
     <string name="paid_time">Paid time</string>
-    <string name="dialog_positive_button">Ok</string>
-    <string name="dialog_negative_button">Cancel</string>
     <string name="date_format">"yyyy.MM.dd"</string>
     <string name="time_format">hh:mm aa"</string>
     <string name="warning_event_must_have_name">Event must have name.</string>
@@ -69,6 +67,10 @@
     <string name="preference_title_income_sms_keyword">Keyword for income notice</string>
     <string name="account">Account : <xliff:g id="account">%s</xliff:g></string>
     <string name="description_for_negative_number_on_payment">Can be negative number for some special case such as support from public.</string>
+    <string name="event_detail_addPaymentImageButtonDescription">Add payment</string>
+    <string name="event_detail_addMemberImageButtonDescription">Add member</string>
+    <string name="eventRemoveImageButtonDescription">Remove event</string>
+    <string name="payment_item_addExceptionalPaymentRuleImageButtonDescription">Add exceptional allocation rule</string>
 
     <string-array name="notice_to">
         <item>members with email address</item>

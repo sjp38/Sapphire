@@ -13,7 +13,6 @@
             android:id="@+id/eventNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="신년회"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -21,7 +20,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
-            android:text="2012. 01. 02"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -30,8 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="완납
-(5/5)"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageButton
@@ -39,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@string/eventRemoveImageButtonDescription"
         android:background="@drawable/ic_clear" />
 
 </LinearLayout>

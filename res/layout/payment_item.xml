@@ -14,7 +14,6 @@
             android:id="@+id/payment_item_nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="내동생고기"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -22,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
-            android:text="57000원"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
@@ -35,7 +33,6 @@
                 android:id="@+id/payment_item_dateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2011.12.24"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -43,7 +40,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
-                android:text="10:00 PM"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </LinearLayout>
@@ -72,6 +68,7 @@
             android:id="@+id/payment_item_addExceptionalPaymentRuleImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/payment_item_addExceptionalPaymentRuleImageButtonDescription"
             android:background="@drawable/ic_add_small_size" />
     </LinearLayout>
 

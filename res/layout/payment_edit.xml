@@ -25,7 +25,8 @@
                 android:id="@+id/payment_edit_nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/underTitleItemLeftMargin" />
+                android:layout_marginLeft="@dimen/underTitleItemLeftMargin"
+                android:inputType="text" />
 
             <View
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -78,7 +79,6 @@
                     android:id="@+id/payment_edit_paidDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2012.01.03"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -86,7 +86,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
-                    android:text="PM 05:30"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
         </LinearLayout>
@@ -101,7 +100,6 @@
         android:id="@+id/advertiseLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:baselineAligned="true" />
 
 </LinearLayout>
